@@ -24,29 +24,29 @@
     <table>
       <tr>
         <td colspan="4">
-            <input type="text" id="visor" />
+          <input type="text" id="visor" />
         </td>
       </tr>
       <tr>
         <td colspan="2">
-            <button onclick="limparVisor()">C</button>
+          <button onclick="limparVisor()">C</button>
         </td>
         <td colspan="2">
-            <button onclick="apagarUltimo()">&larr;</button>
+          <button onclick="apagarUltimo()">&larr;</button>
         </td>
       </tr>
       <tr>
         <td>
-            <button onclick="adicionarAoVisor('(')">(</button>
+          <button onclick="adicionarAoVisor('(')">(</button>
         </td>
         <td>
-            <button onclick="adicionarAoVisor(')')">)</button>
+          <button onclick="adicionarAoVisor(')')">)</button>
         </td>
         <td>
-            <button onclick="">%</button>
+          <button onclick="">%</button>
         </td>
         <td>
-            <button onclick="">&radic;</button>
+          <button onclick="">&radic;</button>
         </td>
       </tr>
       <tr>
@@ -79,30 +79,30 @@
       </tr>
       <tr>
         <td>
-            <button onclick="adicionarAoVisor(1)">1</button>
+          <button onclick="adicionarAoVisor(1)">1</button>
         </td>
         <td>
-            <button onclick="adicionarAoVisor(2)">2</button>
+          <button onclick="adicionarAoVisor(2)">2</button>
         </td>
         <td>
-            <button onclick="adicionarAoVisor(3)">3</button>
+          <button onclick="adicionarAoVisor(3)">3</button>
         </td>
         <td>
-            <button onclick="adicionarAoVisor('-')">-</button>
+          <button onclick="adicionarAoVisor('-')">-</button>
         </td>
       </tr>
       <tr>
         <td>
-            <button onclick="adicionarAoVisor('0')">0</button>
+          <button onclick="adicionarAoVisor('0')">0</button>
         </td>
         <td>
-            <button onclick="adicionarAoVisor('.')">.</button>
+          <button onclick="adicionarAoVisor('.')">.</button>
         </td>
         <td>
-            <button onclick="">=</button>
+          <button onclick="">=</button>
         </td>
         <td>
-            <button onclick="adicionarAoVisor('+')">+</button>
+          <button onclick="adicionarAoVisor('+')">+</button>
         </td>
       </tr>
     </table>
@@ -118,6 +118,11 @@
       function apagarUltimo() {
         let valorAtual = document.getElementById("visor").value;
         document.getElementById("visor").value = valorAtual.slice(0, -1);
+      }
+
+      function equacao(valor) {
+
+        
       }
     </script>
   </body>
