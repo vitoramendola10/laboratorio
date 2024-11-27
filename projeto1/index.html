@@ -24,7 +24,7 @@
     <table>
       <tr>
         <td colspan="4">
-          <input type="text" id="visor" />
+          <input type="text" id="visor"/>
         </td>
       </tr>
       <tr>
@@ -43,10 +43,10 @@
           <button onclick="adicionarAoVisor(')')">)</button>
         </td>
         <td>
-          <button onclick="">%</button>
+          <button onclick="calcularPorcentagem()">%</button>
         </td>
         <td>
-          <button onclick="">&radic;</button>
+          <button onclick="calcularRaizQuadrada()">&radic;</button>
         </td>
       </tr>
       <tr>
@@ -99,7 +99,7 @@
           <button onclick="adicionarAoVisor('.')">.</button>
         </td>
         <td>
-          <button onclick="">=</button>
+          <button onclick="calcularResultado()">=</button>
         </td>
         <td>
           <button onclick="adicionarAoVisor('+')">+</button>
@@ -107,23 +107,46 @@
       </tr>
     </table>
     <script>
+
+      let visor = document.getElementById("visor");
+
+      console.log(visor);
+
       function adicionarAoVisor(valor) {
-        document.getElementById("visor").value += valor;
+        visor.value += valor;
       }
 
       function limparVisor() {
-        document.getElementById("visor").value = "";
+        visor.value = "";
       }
 
       function apagarUltimo() {
-        let valorAtual = document.getElementById("visor").value;
-        document.getElementById("visor").value = valorAtual.slice(0, -1);
+        let valorAtual = visor.value;
+        visor.value = valorAtual.slice(0, -1);
       }
 
-      function equacao(valor) {
-
+      function calcularResultado() {
+        let expressao = visor.value;
+        let resultado = eval(expressao);
+        visor.value = resultado;
         
       }
+
+      function calcularPorcentagem(){
+        let valorAtual = parseFloat(visor.value);
+        let porcentagem = valorAtual/100;
+        visor.value = porcentagem;
+
+      }
+
+      function calcularRaizQuadrada(){
+        let valorAtual = parseFloat(visor.value);
+        //let raiz = valorAtual ** (1/2);
+        let raiz = Math.sqrt(valorAtual);        
+
+        visor.value = raiz;
+      }
+
     </script>
   </body>
 </html>
