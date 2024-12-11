@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <Style>
+        th, td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+    </Style>
+</head>
+<body>
+    <input type="text" id="nome" placeholder="Nome">
+    <br>
+    <input type="email" id="email" placeholder="Email">
+    <br>
+    <input type="tel" id="telefone" placeholder="Telefone">
+    <br>
+    <input type="date" id="data">
+    <br>
+    <button onclick="adicionarLinha()">Adicionar</button>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Telefone
+                </th>
+                <th>
+                    Data
+                </th>
+                <th>
+                    Ação
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tabela-corpo">
+
+        </tbody>
+    </table>
+    <script>
+        function adicionarLinha(){
+            let nome = document.getElementById("nome").value;
+            let email = document.getElementById("email").value;
+            let telefone = document.getElementById("telefone").value;
+            let data = document.getElementById("data").value;
+
+            if(nome && email && telefone && data){
+                let novaLinha = document.createElement("tr");
+                let celulaNome = document.createElement("td");
+                let celulaEmail = document.createElement("td");
+                let celulaTelefone = document.createElement("td");                
+                let celulaData = document.createElement("td");
+                let celulaAcao = document.createElement("td");
+                let botaoExcluirLinha = document.createElement("button");
+                botaoExcluirLinha.textContent="X";
+                botaoExcluirLinha.style.backgroundColor = "red";
+                botaoExcluirLinha.style.color = "white";
+                botaoExcluirLinha.style.borderRadius = "5px";
+                botaoExcluirLinha.style.border = "none";                
+                botaoExcluirLinha.addEventListener("click",function(){
+                    excluirLinha(novaLinha);
+                });
+                celulaAcao.appendChild(botaoExcluirLinha);
+
+                celulaNome.textContent = nome;
+                celulaEmail.textContent = email;
+                celulaTelefone.textContent = telefone;
+                celulaData.textContent = data;
+                novaLinha.appendChild(celulaNome);
+                novaLinha.appendChild(celulaEmail);
+                novaLinha.appendChild(celulaTelefone);
+                novaLinha.appendChild(celulaData);
+                novaLinha.appendChild(celulaAcao);
+                document.getElementById("tabela-corpo").appendChild(novaLinha);
+                document.getElementById("nome").value="";
+                document.getElementById("email").value="";
+                document.getElementById("telefone").value="";
+                document.getElementById("data").value="";
+            }
+            
+        }
+        function excluirLinha(linha){
+            let confirmacao = window.confirm("Deseja Realmente Excluir a Linha ?");
+            if(confirmacao){
+                linha.remove();
+            }
+        }
+    </script>
+</body>
+</html>
