@@ -24,7 +24,7 @@
     <br>
     <input type="date" id="data">
     <br>
-    <button onclick="adicionarLinha()">Adicionar</button>
+    <button onclick="adicionarLinha()" id="botaoAdicionar">Adicionar</button>
     <br>
     <table>
         <thead>
@@ -51,11 +51,20 @@
         </tbody>
     </table>
     <script>
+        let linhaAtual = null; 
         function adicionarLinha(){
             let nome = document.getElementById("nome").value;
             let email = document.getElementById("email").value;
             let telefone = document.getElementById("telefone").value;
             let data = document.getElementById("data").value;
+            
+
+            if(document.getElementById("botaoAdicionar").textContent == "Salvar"){
+
+                salvarEdicao();
+
+            }else{
+            
 
             if(nome && email && telefone && data){
                 let novaLinha = document.createElement("tr");
@@ -65,6 +74,8 @@
                 let celulaData = document.createElement("td");
                 let celulaAcao = document.createElement("td");
                 let botaoExcluirLinha = document.createElement("button");
+                let botaoEditar = document.createElement("button");
+
                 botaoExcluirLinha.textContent="X";
                 botaoExcluirLinha.style.backgroundColor = "red";
                 botaoExcluirLinha.style.color = "white";
@@ -74,6 +85,18 @@
                     excluirLinha(novaLinha);
                 });
                 celulaAcao.appendChild(botaoExcluirLinha);
+
+                botaoEditar.textContent = "Editar";
+                botaoEditar.style.backgroundColor = "blue";
+                botaoEditar.style.color = "white";
+                botaoEditar.style.borderRadius = "5px";
+                botaoEditar.style.border = "none";   
+
+                botaoEditar.addEventListener("click",function(){
+                    editarLinha(novaLinha);
+                });
+                
+                celulaAcao.appendChild(botaoEditar);
 
                 celulaNome.textContent = nome;
                 celulaEmail.textContent = email;
@@ -90,7 +113,7 @@
                 document.getElementById("telefone").value="";
                 document.getElementById("data").value="";
             }
-            
+        }
         }
         function excluirLinha(linha){
             let confirmacao = window.confirm("Deseja Realmente Excluir a Linha ?");
@@ -98,6 +121,35 @@
                 linha.remove();
             }
         }
+        function editarLinha(linha){
+
+            linhaAtual = linha;                          
+            
+            document.getElementById("nome").value = linha.cells[0].textContent;
+            document.getElementById("email").value = linha.cells[1].textContent;
+            document.getElementById("telefone").value = linha.cells[2].textContent;
+            document.getElementById("data").value = linha.cells[3].textContent;
+            document.getElementById("botaoAdicionar").textContent = "Salvar"; 
+                
+        }
+        function salvarEdicao() {
+            let confirmacao = window.confirm("Deseja Realmente Alterar?");
+            if(confirmacao){ 
+                if (linhaAtual) {
+                    linhaAtual.cells[0].textContent = document.getElementById("nome").value;
+                    linhaAtual.cells[1].textContent = document.getElementById("email").value;
+                    linhaAtual.cells[2].textContent = document.getElementById("telefone").value;
+                    linhaAtual.cells[3].textContent = document.getElementById("data").value;
+                    
+                    document.getElementById("nome").value="";
+                    document.getElementById("email").value="";
+                    document.getElementById("telefone").value="";
+                    document.getElementById("data").value="";     
+                }                       
+            }
+            document.getElementById("botaoAdicionar").textContent = "Adicionar";
+        }
+        
     </script>
 </body>
 </html>
