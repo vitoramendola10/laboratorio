@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulário com Tabela</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Adicionar Informações à Tabela</h2>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" placeholder="Digite o nome" />
+    <br /><br />
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Digite o email" />
+    <br /><br />
+    <label for="telefone">Telefone:</label>
+    <input type="tel" id="telefone" placeholder="Digite o telefone" />
+    <br /><br />
+    <label for="data">Data:</label>
+    <input type="date" id="data" placeholder="Escolha uma data" />
+    <br /><br />
+    <button onclick="adicionarLinha()">Adicionar</button>
+    <h2>Informações Adicionadas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Data</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-corpo"></tbody>
+    </table>
+    <script></script>
+     
+  </body>
+</html>
+<script>
+  function carregarDados() {
+    let dados = JSON.parse(localStorage.getItem("registros")) || [];
+    dados.forEach((item) => {
+      adicionarLinhaTabela(
+        item.id,
+        item.nome,
+        item.email,
+        item.telefone,
+        item.data,
+        false
+      );
+    });
+  }
+  function gerarId() {
+    let dados = JSON.parse(localStorage.getItem("registros")) || [];
+    return dados.length > 0 ? dados[dados.length - 1].id + 1 : 1;
+  }
+  function adicionarLinha() {
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+    let telefone = document.getElementById("telefone").value;
+    let data = document.getElementById("data").value;
+
+    if (nome && email && telefone && data) {
+      let id = gerarId();
+      adicionarLinhaTabela(id, nome, email, telefone, data, true);
+      document.getElementById("nome").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("telefone").value = "";
+      document.getElementById("data").value = "";
+    } else {
+      alert("Por Favor Preencha Todos os Campos !");
+    }
+  }
+  function salvarDados(id, nome, email, telefone, data) {
+    let dados = JSON.parse(localStorage.getItem("registros")) || [];
+
+    dados.push({ id, nome, email, telefone, data });
+    localStorage.setItem("registros", JSON.stringify(dados));
+  }
+
+  function adicionarLinhaTabela(
+    id,
+    nome,
+    email,
+    telefone,
+    data,
+    salvarNoLocarStorage
+  ) {
+    let novaLinha = document.createElement("tr");
+    let celulaId = document.createElement("td");
+    let celulaNome = document.createElement("td");
+    let celulaEmail = document.createElement("td");
+    let celulaTelefone = document.createElement("td");
+    let celulaData = document.createElement("td");
+    let celulaAcao = document.createElement("td");
+    let botaoExcluirLinha = document.createElement("button");
+
+    celulaId.textContent = id;
+    celulaNome.textContent = nome;
+    celulaEmail.textContent = email;
+    celulaTelefone.textContent = telefone;
+    celulaData.textContent = data;
+    botaoExcluirLinha.textContent = "Excluir";
+    botaoExcluirLinha.addEventListener("click", function () {
+      excluirLinha(id, novaLinha);
+    });
+    celulaAcao.appendChild(botaoExcluirLinha);
+    novaLinha.appendChild(celulaId);
+    novaLinha.appendChild(celulaNome);
+    novaLinha.appendChild(celulaTelefone);
+    novaLinha.appendChild(celulaEmail);
+    novaLinha.appendChild(celulaData);
+    novaLinha.appendChild(celulaAcao);
+    document.getElementById("tabela-corpo").appendChild(novaLinha);
+
+    if (salvarNoLocarStorage) {
+      salvarDados(id, nome, telefone, email, data);
+    }
+  }
+  function excluirLinha(id, linha){
+    let confirmacao = confirm("Deseja Realmente Excluir a Linha ?");
+    if (confirmacao){
+        linha.remove();
+        let dados = JSON.parse(localStorage.getItem("registros"));
+        dados = dados.filter(function(item){
+            return item.id !== id;
+        });
+        localStorage.setItem("registros", JSON.stringify(dados));
+    }
+  }
+  carregarDados();
+</script>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let pessoas = [
+        {
+          id: 1,
+          nome: "vitor",
+        },
+        {
+          id: 2,
+          nome: "gael",
+        },
+        {
+          id: 3,
+          nome: "danubia",
+        },
+      ];
+      pessoas.forEach(function (pessoa) {
+        console.log(pessoa.nome);
+      });
+      let pessoasFiltradas = pessoas.filter(function(pessoa){
+        if(pessoa.id !== 3){
+            return pessoa;
+        }
+
+      });
+      console.log(pessoasFiltradas);
+    </script>
+  </body>
+</html>
