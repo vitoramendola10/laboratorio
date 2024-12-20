@@ -29,7 +29,7 @@
     <label for="data">Data:</label>
     <input type="date" id="data" placeholder="Escolha uma data" />
     <br /><br />
-    <button onclick="adicionarLinha()">Adicionar</button>
+    <button onclick="adicionarLinha()" id="botaoAdicionar">Adicionar</button>
     <h2>Informações Adicionadas</h2>
     <table>
       <thead>
@@ -49,6 +49,8 @@
   </body>
 </html>
 <script>
+  let linhaAtual = null;
+  let idAtual = null;
   function carregarDados() {
     let dados = JSON.parse(localStorage.getItem("registros")) || [];
     dados.forEach((item) => {
@@ -72,15 +74,19 @@
     let telefone = document.getElementById("telefone").value;
     let data = document.getElementById("data").value;
 
-    if (nome && email && telefone && data) {
-      let id = gerarId();
-      adicionarLinhaTabela(id, nome, email, telefone, data, true);
-      document.getElementById("nome").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("telefone").value = "";
-      document.getElementById("data").value = "";
+    if (document.getElementById("botaoAdicionar").textContent == "Salvar") {
+      salvarEdicao(idAtual);
     } else {
-      alert("Por Favor Preencha Todos os Campos !");
+      if (nome && email && telefone && data) {
+        let id = gerarId();
+        adicionarLinhaTabela(id, nome, email, telefone, data, true);
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("telefone").value = "";
+        document.getElementById("data").value = "";
+      } else {
+        alert("Por Favor Preencha Todos os Campos !");
+      }
     }
   }
   function salvarDados(id, nome, email, telefone, data) {
@@ -106,6 +112,7 @@
     let celulaData = document.createElement("td");
     let celulaAcao = document.createElement("td");
     let botaoExcluirLinha = document.createElement("button");
+    let botaoEditar = document.createElement("button");
 
     celulaId.textContent = id;
     celulaNome.textContent = nome;
@@ -116,6 +123,14 @@
     botaoExcluirLinha.addEventListener("click", function () {
       excluirLinha(id, novaLinha);
     });
+
+    botaoEditar.textContent = "Editar";
+
+    botaoEditar.addEventListener("click", function () {
+      editarLinha(id, novaLinha);
+    });
+
+    celulaAcao.appendChild(botaoEditar);
     celulaAcao.appendChild(botaoExcluirLinha);
     novaLinha.appendChild(celulaId);
     novaLinha.appendChild(celulaNome);
@@ -129,16 +144,63 @@
       salvarDados(id, nome, telefone, email, data);
     }
   }
-  function excluirLinha(id, linha){
+  function excluirLinha(id, linha) {
     let confirmacao = confirm("Deseja Realmente Excluir a Linha ?");
-    if (confirmacao){
-        linha.remove();
-        let dados = JSON.parse(localStorage.getItem("registros"));
-        dados = dados.filter(function(item){
-            return item.id !== id;
-        });
-        localStorage.setItem("registros", JSON.stringify(dados));
+    if (confirmacao) {
+      linha.remove();
+      let dados = JSON.parse(localStorage.getItem("registros"));
+      dados = dados.filter(function (item) {
+        return item.id !== id;
+      });
+      localStorage.setItem("registros", JSON.stringify(dados));
     }
+  }
+  function editarLinha(id, linha) {
+    linhaAtual = linha;
+    idAtual = id;
+
+    document.getElementById("nome").value = linha.cells[1].textContent;
+    document.getElementById("email").value = linha.cells[2].textContent;
+    document.getElementById("telefone").value = linha.cells[3].textContent;
+    document.getElementById("data").value = linha.cells[4].textContent;
+    document.getElementById("botaoAdicionar").textContent = "Salvar";
+  }
+  function salvarEdicao(idAtual) {
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+    let telefone = document.getElementById("telefone").value;
+    let data = document.getElementById("data").value;
+
+    let confirmacao = window.confirm("Deseja Realmente Alterar?");
+    if (confirmacao) {
+      if (linhaAtual) {
+        linhaAtual.cells[1].textContent = document.getElementById("nome").value;
+        linhaAtual.cells[2].textContent =
+          document.getElementById("email").value;
+        linhaAtual.cells[3].textContent =
+          document.getElementById("telefone").value;
+        linhaAtual.cells[4].textContent = document.getElementById("data").value;
+
+        let dados = JSON.parse(localStorage.getItem("registros"));
+        dados = dados.filter(function (item) {          
+          return item.id !== idAtual;
+        });
+        dados.push({
+            id : idAtual,
+            nome: nome,
+            email: email,
+            telefone: telefone,
+            data: data,
+          });
+        localStorage.setItem("registros", JSON.stringify(dados));
+
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("telefone").value = "";
+        document.getElementById("data").value = "";
+      }
+    }
+    document.getElementById("botaoAdicionar").textContent = "Adicionar";
   }
   carregarDados();
 </script>

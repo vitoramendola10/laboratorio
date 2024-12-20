@@ -24,13 +24,19 @@
       pessoas.forEach(function (pessoa) {
         console.log(pessoa.nome);
       });
+
       let pessoasFiltradas = pessoas.filter(function(pessoa){
         if(pessoa.id !== 3){
             return pessoa;
         }
 
       });
-      console.log(pessoasFiltradas);
+
+      let pessoasFil = pessoas.filter(pessoa => pessoa.id !== 3);
+      
+      console.log("teste1",pessoasFiltradas);
+      console.log("teste2",pessoasFil);
+
     </script>
   </body>
 </html>
