@@ -182,9 +182,7 @@
         linhaAtual.cells[4].textContent = document.getElementById("data").value;
 
         let dados = JSON.parse(localStorage.getItem("registros"));
-        dados = dados.filter(function (item) {          
-          return item.id !== idAtual;
-        });
+        dados = dados.filter(item => item.id !== idAtual);
         dados.push({
             id : idAtual,
             nome: nome,
