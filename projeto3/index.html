@@ -91,8 +91,14 @@
   }
   function salvarDados(id, nome, email, telefone, data) {
     let dados = JSON.parse(localStorage.getItem("registros")) || [];
-
-    dados.push({ id, nome, email, telefone, data });
+    let indice = dados.findIndex(function (item) {
+      return item.id == id;
+    });
+    if (indice !== -1) {
+      dados[indice] = { id, nome, email, telefone, data };
+    } else {
+      dados.push({ id, nome, email, telefone, data });
+    }
     localStorage.setItem("registros", JSON.stringify(dados));
   }
 
@@ -182,14 +188,14 @@
         linhaAtual.cells[4].textContent = document.getElementById("data").value;
 
         let dados = JSON.parse(localStorage.getItem("registros"));
-        dados = dados.filter(item => item.id !== idAtual);
+        dados = dados.filter((item) => item.id !== idAtual);
         dados.push({
-            id : idAtual,
-            nome: nome,
-            email: email,
-            telefone: telefone,
-            data: data,
-          });
+          id: idAtual,
+          nome: nome,
+          email: email,
+          telefone: telefone,
+          data: data,
+        });
         localStorage.setItem("registros", JSON.stringify(dados));
 
         document.getElementById("nome").value = "";
